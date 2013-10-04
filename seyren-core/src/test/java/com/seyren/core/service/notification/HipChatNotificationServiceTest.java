@@ -34,22 +34,22 @@ import com.seyren.core.domain.SubscriptionType;
 import com.seyren.core.util.config.SeyrenConfig;
 
 public class HipChatNotificationServiceTest {
-    
+
     private NotificationService notificationService;
-    
+
     @Rule
     public ClientDriverRule clientDriver = new ClientDriverRule();
-    
+
     @Before
     public void before() {
         notificationService = new HipChatNotificationService(new SeyrenConfig(), clientDriver.getBaseUrl());
     }
-    
+
     @Test
     public void notifcationServiceCanHandleHipChatSubscription() {
         assertThat(notificationService.canHandle(SubscriptionType.HIPCHAT), is(true));
     }
-    
+
     @Test
     public void basicHappyPathTest() {
         Check check = new Check()
@@ -64,19 +64,19 @@ public class HipChatNotificationServiceTest {
                 .withFromType(AlertType.OK)
                 .withToType(AlertType.ERROR);
         List<Alert> alerts = Arrays.asList(alert);
-        
+
         clientDriver.addExpectation(
                 onRequestTo("/v1/rooms/message")
                         .withMethod(Method.POST)
                         .withBody(is("auth_token="
                                 + "&from=Seyren+Alert"
                                 + "&room_id=target"
-                                + "&message=Check+%3Ca+href%3Dhttp%3A%2F%2Flocalhost%3A8080%2Fseyren%2F%23%2Fchecks%2Fnull%3Etest-check%3C%2Fa%3E+has+entered+its+ERROR+state."
+                                + "&message=Check+%3Ca+href%3Dhttp%3A%2F%2Flocalhost%3A5000%2Fseyren%2F%23%2Fchecks%2Fnull%3Etest-check%3C%2Fa%3E+has+entered+its+ERROR+state."
                                 + "&color=red"
                                 + "&notify=1"), "application/x-www-form-urlencoded"),
                 giveEmptyResponse());
-        
+
         notificationService.sendNotification(check, subscription, alerts);
     }
-    
+
 }

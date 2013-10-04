@@ -12,7 +12,7 @@
 
     <properties>
         <seyren.host>localhost</seyren.host>
-        <seyren.port>8080</seyren.port>
+        <seyren.port>5000</seyren.port>
         <seyren.contextRoot>seyren</seyren.contextRoot>
 
         <jetty.daemon>true</jetty.daemon>

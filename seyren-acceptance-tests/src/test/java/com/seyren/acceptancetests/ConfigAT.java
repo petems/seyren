@@ -24,15 +24,15 @@ import org.junit.Test;
 import com.github.restdriver.serverdriver.http.response.Response;
 
 public class ConfigAT {
-    
+
     @Test
     public void getAcceptanceTestSeyrenConfig() {
         Response response = get(config());
         assertThat(response, hasStatusCode(200));
-        
+
         // Base
         assertThat(response.asJson().size(), is(1));
-        assertThat(response.asJson(), hasJsonPath("$.baseUrl", is("http://localhost:8080/seyren")));
+        assertThat(response.asJson(), hasJsonPath("$.baseUrl", is("http://localhost:5000/seyren")));
     }
-    
+
 }

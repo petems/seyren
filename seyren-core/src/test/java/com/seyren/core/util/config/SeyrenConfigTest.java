@@ -20,132 +20,132 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SeyrenConfigTest {
-    
+
     private SeyrenConfig config;
-    
+
     @Before
     public void before() {
         config = new SeyrenConfig();
     }
-    
+
     @Test
     public void defaultBaseUrlIsCorrect() {
-        assertThat(config.getBaseUrl(), is("http://localhost:8080/seyren"));
+        assertThat(config.getBaseUrl(), is("http://localhost:5000/seyren"));
     }
-    
+
     @Test
     public void defaultMongoUrlIsCorrect() {
         assertThat(config.getMongoUrl(), is("mongodb://localhost:27017/seyren"));
     }
-    
+
     @Test
     public void defaultGraphiteUrlIsCorrect() {
         assertThat(config.getGraphiteUrl(), is("http://localhost:80"));
     }
-    
+
     @Test
     public void defaultGraphiteUsernameIsCorrect() {
         assertThat(config.getGraphiteUsername(), is(""));
     }
-    
+
     @Test
     public void defaultGraphitePasswordIsCorrect() {
         assertThat(config.getGraphitePassword(), is(""));
     }
-    
+
     @Test
     public void defaultGraphiteSchemeIsCorrect() {
         assertThat(config.getGraphiteScheme(), is("http"));
     }
-    
+
     @Test
     public void defaultGraphiteHostIsCorrect() {
         assertThat(config.getGraphiteHost(), is("localhost:80"));
     }
-    
+
     @Test
     public void defaultGraphitePathIsCorrect() {
         assertThat(config.getGraphitePath(), is(""));
     }
-    
+
     @Test
     public void defaultGraphiteKeyStoreIsCorrect() {
         assertThat(config.getGraphiteKeyStore(), is(""));
     }
-    
+
     @Test
     public void defaultGraphiteKeyStorePasswordIsCorrect() {
         assertThat(config.getGraphiteKeyStorePassword(), is(""));
     }
-    
+
     @Test
     public void defaultGraphiteTrustStoreIsCorrect() {
         assertThat(config.getGraphiteTrustStore(), is(""));
     }
-    
+
     @Test
     public void defaultSmtpFromIsCorrect() {
         assertThat(config.getSmtpFrom(), is("alert@seyren"));
     }
-    
+
     @Test
     public void defaultSmtpUsernameIsCorrect() {
         assertThat(config.getSmtpUsername(), is(""));
     }
-    
+
     @Test
     public void defaultSmtpPasswordIsCorrect() {
         assertThat(config.getSmtpPassword(), is(""));
     }
-    
+
     @Test
     public void defaultSmtpHostIsCorrect() {
         assertThat(config.getSmtpHost(), is("localhost"));
     }
-    
+
     @Test
     public void defaultSmtpProtocolIsCorrect() {
         assertThat(config.getSmtpProtocol(), is("smtp"));
     }
-    
+
     @Test
     public void defaultSmtpPortIsCorrect() {
         assertThat(config.getSmtpPort(), is(25));
     }
-    
+
     @Test
     public void defaultHipChatAuthTokenIsCorrect() {
         assertThat(config.getHipChatAuthToken(), is(""));
     }
-    
+
     @Test
     public void defaultHipChatUsernameIsCorrect() {
         assertThat(config.getHipChatUsername(), is("Seyren Alert"));
     }
-    
+
     @Test
     public void defaultPagerDutyDomainIsCorrect() {
         assertThat(config.getPagerDutyDomain(), is(""));
     }
-    
+
     @Test
     public void defaultHubotUrlIsCorrect() {
         assertThat(config.getHubotUrl(), is(""));
     }
-    
+
     @Test
     public void defaultFlowdockExternalUsernameIsCorrect() {
         assertThat(config.getFlowdockExternalUsername(), is("Seyren"));
     }
-    
+
     @Test
     public void defaultFlowdockTagsIsCorrect() {
         assertThat(config.getFlowdockTags(), is(""));
     }
-    
+
     @Test
     public void defaultFlowdockEmojisIsCorrect() {
         assertThat(config.getFlowdockEmojis(), is(""));
     }
-    
+
 }

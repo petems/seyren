@@ -18,7 +18,7 @@ Seyren ([/ˈsaɪ.rʌn/](http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English#K
 mvn clean package
 export GRAPHITE_URL=http://graphite.foohost.com:80
 java -jar seyren-web/target/dependency/jetty-runner.jar --path /seyren seyren-web/target/*.war
-open http://localhost:8080/seyren
+open http://localhost:5000/seyren
 ```
 
 ###Environment variables
@@ -31,7 +31,7 @@ open http://localhost:8080/seyren
 * `GRAPHITE_KEYSTORE_PASSWORD` - The HTTP KeyStore password for the HTTPS Graphite server. Default: ``
 * `GRAPHITE_TRUSTSTORE` - The HTTP TrustStore path for the https Graphite server. Default: ``
 * `MONGO_URL` - The Mongo [connection string](http://docs.mongodb.org/manual/reference/connection-string/). Default: `mongodb://localhost:27017/seyren`
-* `SEYREN_URL` - The location of your Seyren instance. Default: `http://localhost:8080/seyren`
+* `SEYREN_URL` - The location of your Seyren instance. Default: `http://localhost:5000/seyren`
 
 #### SMTP
 * `SMTP_HOST` - The smtp server to send email notifications from. Default: `localhost`
@@ -83,5 +83,5 @@ To fire-up the app using Maven and wait (meaning you can run the tests separatel
 mvn clean verify -Dwait
 ```
 
-You should then be able to browse to `http://localhost:8080/seyren` and have a play.
+You should then be able to browse to `http://localhost:5000/seyren` and have a play.
 
