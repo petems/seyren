@@ -1,1 +1,1 @@
-web: java -jar seyren-web/target/dependency/jetty-runner.jar jetty.port=5000 seyren-web/target/*.war
+web: java $JAVA_OPTS -jar seyren-web/target/dependency/jetty-runner.jar --port $PORT seyren-web/target/*.war
