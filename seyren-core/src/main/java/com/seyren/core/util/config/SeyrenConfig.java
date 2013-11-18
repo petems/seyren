@@ -29,7 +29,7 @@ import com.seyren.core.util.velocity.Slf4jLogChute;
 
 @Named
 public class SeyrenConfig {
-    
+
     private static final String DEFAULT_BASE_URL = "http://localhost:8080/seyren";
 
     private final String baseUrl;
@@ -62,13 +62,14 @@ public class SeyrenConfig {
     private final String flowdockEmojis;
     private final String ircCatHost;
     private final String ircCatPort;
+    private final String emailTemplate;
 
     public SeyrenConfig() {
-        
+
         // Base
         this.baseUrl = stripEnd(configOrDefault("SEYREN_URL", DEFAULT_BASE_URL), "/");
         this.mongoUrl = configOrDefault("MONGO_URL", "mongodb://localhost:27017/seyren");
-        
+
         // Graphite
         this.graphiteUrl = stripEnd(configOrDefault("GRAPHITE_URL", "http://localhost:80"), "/");
         this.graphiteUsername = configOrDefault("GRAPHITE_USERNAME", "");
@@ -85,20 +86,21 @@ public class SeyrenConfig {
         this.smtpHost = configOrDefault("SMTP_HOST", "localhost");
         this.smtpProtocol = configOrDefault("SMTP_PROTOCOL", "smtp");
         this.smtpPort = Integer.parseInt(configOrDefault("SMTP_PORT", "25"));
-        
+        this.emailTemplate = configOrDefault("EMAIL_TEMPLATE", "com/seyren/core/service/notification/email-template.vm");
+
         // HipChat
         this.hipChatAuthToken = configOrDefault(list("HIPCHAT_AUTHTOKEN", "HIPCHAT_AUTH_TOKEN"), "");
         this.hipChatUsername = configOrDefault(list("HIPCHAT_USERNAME", "HIPCHAT_USER_NAME"), "Seyren Alert");
-        
+
         // PagerDuty
         this.pagerDutyDomain = configOrDefault("PAGERDUTY_DOMAIN", "");
         this.pagerDutyToken = configOrDefault("PAGERDUTY_TOKEN", "");
         this.pagerDutyUsername = configOrDefault("PAGERDUTY_USERNAME", "");
         this.pagerDutyPassword = configOrDefault("PAGERDUTY_PASSWORD", "");
-        
+
         // Hubot
         this.hubotUrl = configOrDefault(list("HUBOT_URL", "SEYREN_HUBOT_URL"), "");
-        
+
         // Flowdock
         this.flowdockExternalUsername = configOrDefault("FLOWDOCK_EXTERNAL_USERNAME", "Seyren");
         this.flowdockTags = configOrDefault("FLOWDOCK_TAGS", "");
@@ -107,15 +109,15 @@ public class SeyrenConfig {
         // IrcCat
         this.ircCatHost = configOrDefault("IRCCAT_HOST", "localhost");
         this.ircCatPort = configOrDefault("IRCCAT_PORT", "12345");
-        
+
     }
-    
+
     @PostConstruct
     public void init() {
         Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, new Slf4jLogChute());
         Velocity.init();
     }
-    
+
     public String getBaseUrl() {
         return baseUrl;
     }
@@ -124,57 +126,57 @@ public class SeyrenConfig {
     public boolean isBaseUrlSetToDefault() {
         return getBaseUrl().equals(DEFAULT_BASE_URL);
     }
-    
+
     @JsonIgnore
     public String getMongoUrl() {
         return mongoUrl;
     }
-    
+
     @JsonIgnore
     public String getPagerDutyDomain() {
         return pagerDutyDomain;
     }
-    
+
     @JsonIgnore
     public String getPagerDutyToken() {
         return pagerDutyToken;
     }
-    
+
     @JsonIgnore
     public String getPagerDutyUsername() {
         return pagerDutyUsername;
     }
-    
+
     @JsonIgnore
     public String getPagerDutyPassword() {
         return pagerDutyPassword;
     }
-    
+
     @JsonIgnore
     public String getHipChatAuthToken() {
         return hipChatAuthToken;
     }
-    
+
     @JsonIgnore
     public String getHipChatUsername() {
         return hipChatUsername;
     }
-    
+
     @JsonIgnore
     public String getHubotUrl() {
         return hubotUrl;
     }
-    
+
     @JsonIgnore
     public String getFlowdockExternalUsername() {
         return flowdockExternalUsername;
     }
-    
+
     @JsonIgnore
     public String getFlowdockTags() {
         return flowdockTags;
     }
-    
+
     @JsonIgnore
     public String getFlowdockEmojis() {
         return flowdockEmojis;
@@ -194,72 +196,77 @@ public class SeyrenConfig {
     public String getSmtpFrom() {
         return smtpFrom;
     }
-    
+
     @JsonIgnore
     public String getSmtpUsername() {
         return smtpUsername;
     }
-    
+
     @JsonIgnore
     public String getSmtpPassword() {
         return smtpPassword;
     }
-    
+
     @JsonIgnore
     public String getSmtpHost() {
         return smtpHost;
     }
-    
+
     @JsonIgnore
     public String getSmtpProtocol() {
         return smtpProtocol;
     }
-    
+
     @JsonIgnore
     public Integer getSmtpPort() {
         return smtpPort;
     }
-    
+
+    @JsonIgnore
+    public String getEmailTemplate() {
+        return emailTemplate;
+    }
+
     @JsonIgnore
     public String getGraphiteUrl() {
         return graphiteUrl;
     }
-    
+
     @JsonIgnore
     public String getGraphiteUsername() {
         return graphiteUsername;
     }
-    
+
     @JsonIgnore
     public String getGraphitePassword() {
         return graphitePassword;
     }
-    
+
     @JsonIgnore
     public String getGraphiteScheme() {
         return splitBaseUrl(graphiteUrl)[0];
     }
-    
+
     @JsonIgnore
     public int getGraphiteSSLPort() {
         return Integer.valueOf(splitBaseUrl(graphiteUrl)[1]);
     }
-    
+
     @JsonIgnore
     public String getGraphiteHost() {
         return splitBaseUrl(graphiteUrl)[2];
     }
-    
+
     @JsonIgnore
     public String getGraphitePath() {
         return splitBaseUrl(graphiteUrl)[3];
     }
-    
+
     @JsonIgnore
     public String getGraphiteKeyStore() {
         return graphiteKeyStore;
     }
-    
+
     @JsonIgnore
     public String getGraphiteKeyStorePassword() {
         return graphiteKeyStorePassword;
@@ -283,45 +290,45 @@ public class SeyrenConfig {
     private static String configOrDefault(String propertyName, String defaultValue) {
         return configOrDefault(list(propertyName), defaultValue);
     }
-    
+
     private static String configOrDefault(List<String> propertyNames, String defaultValue) {
-        
+
         for (String propertyName : propertyNames) {
-            
+
             String value = System.getProperty(propertyName);
             if (isNotEmpty(value)) {
                 return value;
             }
-            
+
             value = System.getenv(propertyName);
             if (isNotEmpty(value)) {
                 return value;
             }
         }
-        
+
         return defaultValue;
     }
-    
+
     private static List<String> list(String... propertyNames) {
         return Arrays.asList(propertyNames);
     }
-    
+
     private static String[] splitBaseUrl(String baseUrl) {
         String[] baseParts = new String[4];
-        
+
         if (baseUrl.toString().contains("://")) {
             baseParts[0] = baseUrl.toString().split("://")[0];
             baseUrl = baseUrl.toString().split("://")[1];
         } else {
             baseParts[0] = "http";
         }
-        
+
         if (baseUrl.contains(":")) {
             baseParts[1] = baseUrl.split(":")[1];
         } else {
             baseParts[1] = "443";
         }
-        
+
         if (baseUrl.contains("/")) {
             baseParts[2] = baseUrl.split("/")[0];
             baseParts[3] = "/" + baseUrl.split("/", 2)[1];
@@ -329,7 +336,7 @@ public class SeyrenConfig {
             baseParts[2] = baseUrl;
             baseParts[3] = "";
         }
-        
+
         return baseParts;
     }
 }

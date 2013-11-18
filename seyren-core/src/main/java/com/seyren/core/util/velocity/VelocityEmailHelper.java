@@ -32,21 +32,21 @@ import com.seyren.core.util.email.EmailHelper;
 
 @Named
 public class VelocityEmailHelper implements EmailHelper {
-    
-    private static final String TEMPLATE_FILE_NAME = "com/seyren/core/service/notification/email-template.vm";
-    private static final String TEMPLATE_CONTENT = getTemplateAsString();
-    
+
     private final SeyrenConfig seyrenConfig;
-    
+
+    private static final String TEMPLATE_FILE_NAME = seyrenConfig.getEmailTemplate();
+    private static final String TEMPLATE_CONTENT = getTemplateAsString();
+
     @Inject
     public VelocityEmailHelper(SeyrenConfig seyrenConfig) {
         this.seyrenConfig = seyrenConfig;
     }
-    
+
     public String createSubject(Check check) {
         return "Seyren alert: " + check.getName();
     }
-    
+
     @Override
     public String createBody(Check check, Subscription subscription, List<Alert> alerts) {
         VelocityContext context = createVelocityContext(check, subscription, alerts);
@@ -54,7 +54,7 @@ public class VelocityEmailHelper implements EmailHelper {
         Velocity.evaluate(context, stringWriter, "EmailNotificationService", TEMPLATE_CONTENT);
         return stringWriter.toString();
     }
-    
+
     private VelocityContext createVelocityContext(Check check, Subscription subscription, List<Alert> alerts) {
         VelocityContext result = new VelocityContext();
         result.put("CHECK", check);
@@ -62,7 +62,7 @@ public class VelocityEmailHelper implements EmailHelper {
         result.put("SEYREN_URL", seyrenConfig.getBaseUrl());
         return result;
     }
-    
+
     private static String getTemplateAsString() {
         try {
             return IOUtils.toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(TEMPLATE_FILE_NAME));
@@ -70,5 +70,5 @@ public class VelocityEmailHelper implements EmailHelper {
             throw new RuntimeException("Template file could not be found on classpath at " + TEMPLATE_FILE_NAME);
         }
     }
-    
+
 }
